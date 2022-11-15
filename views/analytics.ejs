@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html>
-<script src="./chart.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disability friendliness portal feedback form</title>
+    
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
 <body>
+  <div class="header">
+    <a href="/" class="logo">Disability friendliness webpage</a>
+      <div class="header-right">
+      <a href="/">Home</a>
+      <a href="./contact">Contact us</a>
+      <a href="./feedback">Feedback</a>
+      <a class="active" href="./analytics">Analytics</a>
+    </div>
+    </div>
 
     <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
     <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+    <h1><%= html_code_score %></h1>
+    <h1><%= html_code_guide_lines %></h1>
+    <h1><%= axel_core_score %></h1>
+    <h1><%= axel_core_guide_lines %></h1>
+    <h1><%= third_score %></h1>
+    <h1><%= third_guide_lines %></h1>
 
+<script src="chart.js"></script>
 <script>
 var xValues = ["Delhi", "Uttar Pradesh", "Haryana", "Punjab", "Himachal Pradesh"];
 var yValues = [1155, 2349, 144, 124, 915];

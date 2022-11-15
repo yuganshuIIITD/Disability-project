@@ -11,14 +11,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",function(req,res){
     res.render("home");
 });
+var score=0;
+var per=0;
+var axel_score=0;
+var axel_per=0;
+var third_score=0;
+var third_per=0;
 var messageList = [];
 app.post("/",function(req,res){
     var newurl=req.body.url;
     var newPromise = new Promise((resolve, reject) => {
         resolve((messageList = calFunctions.evaluateWebsite(newurl)));
       });
-      var score
-      var per
+      
       newPromise.then((message) => {
         // console.log("messageList", message);
         // console.log("messageList Length", message.length);
@@ -49,7 +54,14 @@ app.get("/feedback",function(req,res){
     res.render("feedback");
   });
 app.get("/Analytics",function(req,res){
-  res.render("analytics");
+  res.render("analytics",{
+    html_code_score:per,
+    html_code_guide_lines:score,
+    axel_core_score:axel_per,
+    axel_core_guide_lines:axel_score,
+    third_score:third_per,
+    third_guide_lines:third_score
+  });
 });
 app.listen(3000,function(){
     console.log("server started");

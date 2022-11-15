@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<script src="./chart.js"></script>
+<body>
+
+    <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+    <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+
+<script>
+var xValues = ["Delhi", "Uttar Pradesh", "Haryana", "Punjab", "Himachal Pradesh"];
+var yValues = [1155, 2349, 144, 124, 915];
+var barColors = ["red", "green","blue","orange","brown"];
+
+
+
+var xValues2 = ["Delhi", "Uttar Pradesh", "Haryana", "Punjab", "Himachal Pradesh"];
+var yValues2 = [155, 249, 44, 14, 95];
+
+
+
+
+
+new Chart("myChart1", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "No. of Hits Statewise"
+    }
+  }
+})
+new Chart("myChart2", {
+  type: "line",
+  data: {
+    labels: xValues2,
+    datasets: [{
+      
+      data: yValues2
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "User base change graph"
+    }
+  }
+});
+</script>
+
+</body>
+</html>

@@ -37,6 +37,7 @@ app.post("/",function(req,res){
         })
         console.log(score);
         console.log("executed");
+
       });
 
       
@@ -47,6 +48,9 @@ app.get("/contact",function(req,res){
 app.get("/feedback",function(req,res){
     res.render("feedback");
   });
+app.get("/Analytics",function(req,res){
+  res.render("analytics");
+});
 app.listen(3000,function(){
     console.log("server started");
 });

@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",function(req,res){
     res.render("home");
 });
-var score=0;
+var score=2;
 var per=0;
 var axel_score=0;
 var axel_per=0;

@@ -10,7 +10,7 @@
   .header a {
     float: left;
     margin: 10px;
-    color: rgb(255, 255, 255);
+    color: white;
     text-align: center;
     padding: 12px;
     text-decoration: none;
@@ -26,12 +26,19 @@
   }
   
   /* Change the background color on mouse-over */
-  /* .header a:hover {
-    background-color: rgb(255, 255, 255);
+  .header a:hover:not([class="logo"]) {
+    background-color: white;
     border-radius: 100px;
     margin: 10px;
     color: #1abc9c;
-  } */
+    text-decoration: none;
+  }
+  .header a:hover {
+    border-radius: 100px;
+    margin: 10px;
+    color: white;
+    text-decoration: none;
+  }
   
   .scores{
     text-align: center;
@@ -39,7 +46,7 @@
   }
   /* Style the active/current link*/
   .header a.active {
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     border-radius: 100px;
     margin: 10px;
     color: #1abc9c;
@@ -125,6 +132,11 @@
     width: 20%;
     border-radius: 20px;
     display: block;
+    cursor: pointer;
+  }
+  .button:hover{
+    background-color: #1abc9c;
+    color: white;
   }
   .weburl{
     color: #2c5364;

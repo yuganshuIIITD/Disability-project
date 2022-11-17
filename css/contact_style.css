@@ -388,18 +388,18 @@ textarea.input {
   }
 }
 .header {
-    /* overflow: hidden; */
+    overflow: hidden;
     background-color: #1abc9c;
     
     /* padding: 20px 10px; */
-    border-radius: 25px;
+    /* border-radius: 25px; */
   }
   
   /* Style the header links */
   .header a {
     float: left;
     margin: 10px;
-    color: black;
+    color: white;
     text-align: center;
     padding: 12px;
     text-decoration: none;
@@ -415,11 +415,18 @@ textarea.input {
   }
   
   /* Change the background color on mouse-over */
-  .header a:hover {
-    background-color: rgb(255, 255, 255);
+  .header a:hover:not([class="logo"]) {
+    background-color: white;
     border-radius: 100px;
     margin: 10px;
     color: #1abc9c;
+    text-decoration: none;
+  }
+  .header a:hover {
+    border-radius: 100px;
+    margin: 10px;
+    color: white;
+    text-decoration: none;
   }
   
   .scores{
@@ -428,7 +435,7 @@ textarea.input {
   }
   /* Style the active/current link*/
   .header a.active {
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     border-radius: 100px;
     margin: 10px;
     color: #1abc9c;

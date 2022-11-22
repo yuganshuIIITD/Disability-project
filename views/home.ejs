@@ -23,12 +23,21 @@
     </div>
   </div>
   </h1>
-  <br><br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br>
   <form action="/" method="post">
     <div class="url">
-      <input class="url_box form__input" type="text" name="url" placeholder="Enter Web page url...">
+      <input class="url_box form__input" type="text" name="url" placeholder="Enter Webpage URL" required/>
+      <br><br>
+      <!-- <input class="guideline_box form__input" type="text" name="guidelineType" placeholder="Enter guideline: A, AA, AAA"> -->
+      <select class="guideline_box form__input" name="guidelineType" required>
+        <option value="" disabled selected hidden>Choose guideline</option>
+        <option value="A">WCAG2A</option>
+        <option value="AA">WCAG2AA</option>
+        <option value="AAA">WCAG2AAA</option>
+      </select>
       <br><br>
       <label for="name" class="form__label"></label>
+      <br>
       <button class="button" type="submit" name="submit">calculate disability score</button>
     </div>
 

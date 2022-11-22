@@ -5,10 +5,10 @@ const calFunctions = require("./main.js");
 const path = require('path');
 const { render } = require("ejs");
 // app.use(express.static('public'));
-app.set("view engine","ejs");
-app.use(express.static(path.join(__dirname,'css')));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, 'css')));
 app.use(bodyParser.urlencoded({extended: true}));
-app.get("/",function(req,res){
+app.get("/",function(req, res){
     res.render("home");
 });
 var score=2;
@@ -18,22 +18,30 @@ var axel_per=0;
 var third_score=0;
 var third_per=0;
 var messageList = [];
-app.post("/",function(req,res){
+var guidelineTypeToName = {
+  0: "A",
+  1: "AA",
+  2: "AAA",
+}
+app.post("/",function(req, res){
     var newurl=req.body.url;
+    var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
+
     var newPromise = new Promise((resolve, reject) => {
-        resolve((messageList = calFunctions.evaluateWebsite(newurl)));
+        resolve((messageList = calFunctions.evaluateWebsite(newurl, guidelineType)));
       });
       
       newPromise.then((message) => {
         // console.log("messageList", message);
         // console.log("messageList Length", message.length);
-        score = calFunctions.evaluateScore(message);
+        score = calFunctions.evaluateScore(message, guidelineType);
         console.log(score);
-        per=calFunctions.toPercent(score, 61);
+        per=calFunctions.toPercent(score, guidelineType);
+        // per=calFunctions.toPercent(score, 61);
         console.log(per);
         // const {execSync} = require('child_process');
         // execSync('sleep 10');
-        res.render("Score",{
+        res.render("Score", {
             url:newurl,
             html_code_sniffer:score,
             html_code_sniffer_per:per,
@@ -47,13 +55,13 @@ app.post("/",function(req,res){
 
       
 });
-app.get("/contact",function(req,res){
+app.get("/contact", function(req, res){
     res.render("contact");
   });
-app.get("/feedback",function(req,res){
+app.get("/feedback", function(req, res){
     res.render("feedback");
   });
-app.get("/Analytics",function(req,res){
+app.get("/Analytics", function(req, res){
   res.render("analytics",{
     html_code_score:per,
     html_code_guide_lines:score,
@@ -63,6 +71,6 @@ app.get("/Analytics",function(req,res){
     third_guide_lines:third_score
   });
 });
-app.listen(3000,function(){
+app.listen(3000, function(){
     console.log("server started");
 });

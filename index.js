@@ -61,6 +61,9 @@ app.get("/contact", function(req, res){
 app.get("/feedback", function(req, res){
     res.render("feedback");
   });
+app.get("/resources", function(req, res){
+  res.render("resources");
+});
 app.get("/Analytics", function(req, res){
   res.render("analytics",{
     html_code_score:per,

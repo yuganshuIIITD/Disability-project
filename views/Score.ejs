@@ -18,7 +18,6 @@
           <a href="./contact">Contact us</a>
           <a href="./feedback">Feedback</a>
           <a href="./analytics">Analytics</a>
-          <a href="./resources">Resources</a>
         </div>
       </div>
     </h1>
@@ -28,16 +27,147 @@
     <br>
     <br>
     <br>
-    <h1>Guidelines Followed : <span style="color:red"> <b> <%= html_code_sniffer %> </b> </span> &emsp; Score: <b> <span style="color:red"><%= html_code_sniffer_per %>/100</span> </b> </h1>
-    <h2 class="weburl" >Score By HTML Code Sniffer</h2>
-    <br>
-    <br>
-    <h1>Guidelines Followed : <span style="color:red"> <b> <%= Axel_code %> </b> </span> </h1>
-    <h2 class="weburl" >Score By Axel_code </h2>
-    <br>
-    <br>
-    <h1>Guidelines Followed : <span style="color:red"> <b> <%= Score3 %> </b> </span> </h1>
-    <h2 class="weburl" >Score By HTML Score3</h2>
+    <div class="fbox1">
+      <div>
+        <h1>Guidelines Followed : <span style="color:red"><b><%= html_code_sniffer %> </b> </span> &emsp; Score: <b><span style="color:red"><%= html_code_sniffer_per %></span> </b> </h1>
+        <h2 class="weburl" >Score By Html Code Sniffer</h2>
+      </div>
+      <canvas id="myChart4" style="max-width:300px;"></canvas>
+  </div>
+    
+    <div class="line5"></div>
+    <div class="fbox1">
+      <div>
+        <h1>Guidelines Followed : <%= Axel_code %></h1>
+        <h2 class="weburl" >Score By Axel_code </h2>
+      </div>
+      <canvas id="myChart5" style="max-width:300px;"></canvas>
+  </div>
+    
+  <div class="line5"></div>
+
+    <div class="fbox1">
+        <div>
+            <h1>Guidelines Followed : <%= Score3 %></h1>
+            <h2 class="weburl" >Score By Alfa</h2>
+        </div>
+        <canvas id="myChart6" style="max-width:300px;"></canvas>
+    </div>
+    <div class="line5"></div>
+
+      <div class="fbox1">
+
+        <canvas id="myChart2" ></canvas>
+      </div>
+      <div class="line5"></div>
+
+    <script src="chart.js"></script>
+    <script>
+    var barColors = ["red", "green", "blue", "orange", "brown"];
+
+
+    var xValues2 = ["CodeSniffer", "Axe Core", "Alfa"];
+    var yValues2 = [<%= html_code_sniffer %>, 20, 24, 0];
+
+
+    var xValues4 = ["CodeSniffer", "Rest Not Follow"];
+    var yValues4 = [<%= html_code_sniffer %>, 100 -<%= html_code_sniffer %>];
+
+    var xValues5 = ["Axe Core", "Rest Not Follow"];
+    var yValues5 = [30, 100-30];
+
+    var xValues6 = ["Alfa", "Rest not follow"];
+    var yValues6 = [78, 100-78];
+
+
+     
+    new Chart("myChart2", {
+      type: "bar",
+      data: {
+        labels: xValues2,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues2
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Score Comparsion"
+        }
+      }
+    })
+
+  
+
+
+    new Chart("myChart4", {
+      type: "pie",
+      data: {
+        labels: xValues4,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues4
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "CodeSniffer score percentage"
+        }
+      }
+    })
+
+    new Chart("myChart5", {
+      type: "pie",
+      data: {
+        labels: xValues5,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues5
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Axe Core score percentage"
+        }
+      }
+    })
+
+    new Chart("myChart6", {
+      type: "pie",
+      data: {
+        labels: xValues6,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues6
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Alfa score percentage"
+        }
+      }
+    })
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
 </div>
 <div class="footer-basic">
   <footer>
@@ -49,10 +179,16 @@
           <li class="list-inline-item"><a href="#">Terms</a></li>
           <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
       </ul> -->
+
+
+
       <p class="copyright">Company Name © 2022</p>
   </footer>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+
 </body>
 </html>

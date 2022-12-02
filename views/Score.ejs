@@ -27,10 +27,12 @@
     <br>
     <br>
     <br>
+    <div class="line5"></div>
     <div class="fbox1">
       <div>
-        <h1>Guidelines Followed : <span style="color:red"><b><%= html_code_sniffer %> </b> </span> &emsp; Score: <b><span style="color:red"><%= html_code_sniffer_per %></span> </b> </h1>
-        <h2 class="weburl" >Score By Html Code Sniffer</h2>
+        <h1 style="color: #2c5364" >Score By Html Code Sniffer</h1>
+        <h2>Guidelines Followed : <span style="color:red"><b><%= html_code_sniffer %> </b> </span> &emsp; Score: <b><span style="color:red"><%= html_code_sniffer_per %></span> </b> </h2>
+        
       </div>
       <canvas id="myChart4" style="max-width:300px;"></canvas>
   </div>
@@ -62,6 +64,9 @@
       <div class="line5"></div>
 
     <script src="chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
     <script>
     var barColors = ["red", "green", "blue", "orange", "brown"];
 
@@ -71,7 +76,7 @@
 
 
     var xValues4 = ["CodeSniffer", "Rest Not Follow"];
-    var yValues4 = [<%= html_code_sniffer %>, 100 -<%= html_code_sniffer %>];
+    var yValues4 = [<%= html_code_sniffer_per %>, 100 - <%= html_code_sniffer_per %>];
 
     var xValues5 = ["Axe Core", "Rest Not Follow"];
     var yValues5 = [30, 100-30];
@@ -185,8 +190,6 @@
       <p class="copyright">Company Name © 2022</p>
   </footer>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
 
 

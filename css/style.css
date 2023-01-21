@@ -164,7 +164,8 @@ option {
 .footer-basic {
   padding: 20px 0;
   margin-top: 12%;
-  /* margin-bottom: 0%; */
+  margin-bottom: 0%;
+
   background-color: whitesmoke;
   color: black;
 }

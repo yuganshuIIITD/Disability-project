@@ -74,6 +74,11 @@ app.get("/Analytics", function(req, res){
     third_guide_lines:third_score
   });
 });
+app.get("/submit", function(req, res){
+  res.render("home");
+});
 app.listen(3000, function(){
     console.log("server started");
 });
+
+

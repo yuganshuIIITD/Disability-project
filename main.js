@@ -12,7 +12,7 @@ var jsdom = require("jsdom");
 var { JSDOM } = jsdom;
 var fs = require("fs");
 
-
+// var util = require('util');
 
 /*
 * Global Values 
@@ -70,7 +70,7 @@ const wcag2aaaSize = wcag2aaSize + 28;
 //Indian AAA
 const indianGuidelinesSize = 37;
 //Array for the below nums
-const guidelineCount = [wcag2aSize, wcag2aaSize ,wcag2aaaSize ,indianGuidelinesSize] 
+const guidelineCount = [wcag2aSize, wcag2aaSize, wcag2aaaSize, indianGuidelinesSize] 
 
 /**
 * Function starts
@@ -145,7 +145,26 @@ async function evaluateWebsite(websiteHttp, guidelineType) {
   return messageList;
 }
 
+function axeCore(websiteHTTP, guidelineType) {
+  
 
+
+    // Call the axe.run function within the context of the virtual document.
+    // axe.run({
+    //   runOnly: {
+    //     values: [guidelineType]
+    //   }
+    // }, websiteHTTP, function(error, results) {
+    //   if (error) {
+    //     // An error occurred while running the analysis.
+    //     console.error(error);
+    //   } else {
+    //     // The analysis was successful.
+    //     console.log(results);
+    //   }
+    // });
+
+}
 
 function isIndianGuidlines(message) {
   var splitList = message.toString().split("|");
@@ -160,7 +179,7 @@ function isIndianGuidlines(message) {
   }
 }
 
-function evaluateScore(messageList , guidelineType ) {
+function evaluateScore(messageList, guidelineType ) {
 
   //const list = [];
 
@@ -188,5 +207,5 @@ function toPercent(value, guidelineType) {
   return ((value / guidelineCount[guidelineType]) * 100).toFixed(2);
 }
 
-module.exports = { evaluateWebsite, evaluateScore, toPercent };
+module.exports = { evaluateWebsite, evaluateScore, toPercent, axeCore};
 // module.exports = evaluateScore;

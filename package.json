@@ -1,12 +1,13 @@
 {
-  "name": "disabilituy",
+  "name": "disability",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "jasmine init",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "yuganshu,aditi",
+  "author": "yuganshu, aditi, jaskaran",
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.8",

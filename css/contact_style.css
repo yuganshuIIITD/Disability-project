@@ -169,7 +169,7 @@ textarea.input {
 .input-container span:after {
   content: "";
   position: absolute;
-  width: 20%;
+  width: 100%;
   opacity: 0;
   transition: 0.3s;
   height: 5px;
@@ -195,7 +195,7 @@ textarea.input {
 
 .input-container.focus span:before,
 .input-container.focus span:after {
-  width: 70%;
+  width: 0%;
   opacity: 1;
 }
 

@@ -17,6 +17,7 @@ var axel_score=0;
 var axel_per=0;
 var third_score=0;
 var third_per=0;
+// var axescore=0;
 var messageList = [];
 var guidelineTypeToName = {
   0: "A",
@@ -37,6 +38,7 @@ app.post("/",function(req, res){
         score = calFunctions.evaluateScore(message, guidelineType);
         console.log(score);
         per=calFunctions.toPercent(score, guidelineType);
+        // axescore = calFunctions.axeCore(newurl, guidelineType);
         // per=calFunctions.toPercent(score, 61);
         console.log(per);
         // const {execSync} = require('child_process');
@@ -45,8 +47,8 @@ app.post("/",function(req, res){
             url:newurl,
             html_code_sniffer:score,
             html_code_sniffer_per:per,
-            Axel_code:2,
-            Score3:3
+            Axel_code:20,
+            Score3:24
         })
         console.log(score);
         console.log("executed");
@@ -61,6 +63,9 @@ app.get("/contact", function(req, res){
 app.get("/feedback", function(req, res){
     res.render("feedback");
   });
+app.get("/resources", function(req, res){
+  res.render("resources");
+});
 app.get("/Analytics", function(req, res){
   res.render("analytics",{
     html_code_score:per,

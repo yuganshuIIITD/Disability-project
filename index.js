@@ -2,6 +2,7 @@ const express=require("express");
 const bodyParser=require("body-parser");
 const app=express();
 const calFunctions = require("./main.js");
+// const axe = require("./axe_core.js");
 const path = require('path');
 const { render } = require("ejs");
 // app.use(express.static('public'));
@@ -33,7 +34,7 @@ app.post("/",function(req, res){
       });
       
       newPromise.then((message) => {
-        // console.log("messageList", message);
+        console.log("messageList", message);
         // console.log("messageList Length", message.length);
         score = calFunctions.evaluateScore(message, guidelineType);
         console.log(score);
@@ -41,6 +42,8 @@ app.post("/",function(req, res){
         // axescore = calFunctions.axeCore(newurl, guidelineType);
         // per=calFunctions.toPercent(score, 61);
         console.log(per);
+        // axel_per=axe.test_axe(newurl);
+        // console.log(axel_per);
         // const {execSync} = require('child_process');
         // execSync('sleep 10');
         res.render("Score", {

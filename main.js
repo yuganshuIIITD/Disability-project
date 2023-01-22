@@ -78,46 +78,58 @@ const guidelineCount = [wcag2aSize, wcag2aaSize, wcag2aaaSize, indianGuidelinesS
 
 var HTMLCS = fs.readFileSync("./build/HTMLCS.js", "utf-8");
 var vConsole = new jsdom.VirtualConsole();
+var noHtml = false;
 
 async function getHtml(urlInput) {
   const dom = new JSDOM();
   var htmlString = "";
+  noHtml = false;
   var result = new Promise((resolve, reject) => {
-    JSDOM.fromURL(urlInput).then((dom) => {
-      //console.log(dom.serialize());
-      var temp = dom.serialize();
-      //htmlString = temp;
-      resolve((htmlString = temp));
-      //return htmlString;
-      //console.log(htmlString);
-    });
+    resolve(
+      JSDOM.fromURL(urlInput).then((dom) => {
+        //console.log(dom.serialize());
+        var temp = dom.serialize();
+        //htmlString = temp;
+        htmlString = temp;
+        //return htmlString;
+        //console.log(htmlString);
+      })
+    );
+  }).catch((e) => {
+    console.error("Error in getHtml: ");
+    console.error(e);
+    noHtml = true;
   });
 
   await result.then((data) => {
     //console.log("printing htmlString ", htmlString);
+    //console.log("htmlString",htmlString);
   });
+
   return htmlString;
 }
 
-async function evaluateWebsite(websiteHttp, guidelineType) {
+async function evaluateWebsite(websiteHttp, guildelineType) {
   //document = Jsoup.connect(websiteHttp).get();
   //var websiteHtml = new XMLSerializer().serializeToString(doc)
   var messageList = [];
   // Forward messages to the console.
   vConsole.on("log", function (message) {
     if (message != "done") {
-
-      if(guidelineType !=3){
+      if (guildelineType != 3) {
         messageList.push(message);
-      } else if(isIndianGuidlines(message)){
+      } else if (isIndianGuidlines(message)) {
         messageList.push(message);
       }
-      
     }
   });
   //await getHtml(websiteHttp);
   var urlInput = "";
+
   urlInput = await getHtml(websiteHttp);
+  if (noHtml == true) {
+    return [];
+  }
   //console.log("urlInput", urlInput);
   //console.log(getHtml(websiteHttp,""));
   //Evaluate website setup
@@ -129,16 +141,16 @@ async function evaluateWebsite(websiteHttp, guidelineType) {
   //Running the evaluation of website
   dom.window.eval(HTMLCS);
 
-  if (guidelineType == 0) {
+  if (guildelineType == 0) {
     dom.window.HTMLCS_RUNNER.run("WCAG2A");
-  } else if (guidelineType == 1) {
+  } else if (guildelineType == 1) {
     dom.window.HTMLCS_RUNNER.run("WCAG2AA");
-  } else if (guidelineType == 2) {
+  } else if (guildelineType == 2) {
     dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
-  // } else if (guidelineType == 3) {
-  //   dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
+  } else if (guildelineType == 3) {
+    dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
   } else {
-    console.log("Incorrect guidelineType");
+    console.log("Incorrect guildelineType");
   }
 
   //console.log(messageList);
@@ -179,8 +191,11 @@ function isIndianGuidlines(message) {
   }
 }
 
-function evaluateScore(messageList, guidelineType ) {
-
+function evaluateScore(messageList, guildelineType) {
+  if (messageList.length == 0) {
+    console.log("Empty Message List: Assigning 0 score");
+    return 0;
+  }
   //const list = [];
 
   const len = messageList.length;
@@ -198,14 +213,23 @@ function evaluateScore(messageList, guidelineType ) {
     //console.log(fineSplit[3]);
   }
   //Simple Calcaulation logic
-  var score = guidelineCount[guidelineType] - guidelineSet.size;
+  var score = guidelineCount[guildelineType] - guidelineSet.size;
   console.log(guidelineSet);
   return score;
 }
 
-function toPercent(value, guidelineType) {
-  return ((value / guidelineCount[guidelineType]) * 100).toFixed(2);
+function toPercent(value, guildelineType) {
+  var returnValue = 0.0;
+  try {
+    returnValue = ((value / guidelineCount[guildelineType]) * 100).toFixed(2);
+  } catch (e) {
+    console.error("toPercent error:",e);
+    return returnValue;
+  } finally {
+    return returnValue;
+  }
 }
+
 
 module.exports = { evaluateWebsite, evaluateScore, toPercent, axeCore};
 // module.exports = evaluateScore;

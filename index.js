@@ -5,6 +5,9 @@ const calFunctions = require("./main.js");
 // const axe = require("./axe_core.js");
 const path = require('path');
 const { render } = require("ejs");
+const Jasmine = require('jasmine');
+const jasmine = new Jasmine().jasmine;
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 // app.use(express.static('public'));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'css')));
@@ -43,14 +46,14 @@ app.post("/",function(req, res){
         // per=calFunctions.toPercent(score, 61);
         console.log(per);
         // axel_per=axe.test_axe(newurl);
-        // console.log(axel_per);
+        console.log(axel_per);
         // const {execSync} = require('child_process');
         // execSync('sleep 10');
         res.render("Score", {
             url:newurl,
             html_code_sniffer:score,
             html_code_sniffer_per:per,
-            Axel_code:20,
+            Axel_code:axel_per,
             Score3:24
         })
         console.log(score);
@@ -82,7 +85,7 @@ app.get("/Analytics", function(req, res){
 app.get("/submit", function(req, res){
   res.render("home");
 });
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
     console.log("server started");
 });
 

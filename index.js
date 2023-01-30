@@ -21,7 +21,7 @@ var axel_score=0;
 var axel_per=0;
 var third_score=0;
 var third_per=0;
-// var axescore=0;
+var axescore=0;
 var messageList = [];
 var guidelineTypeToName = {
   0: "A",
@@ -88,6 +88,3 @@ app.get("/submit", function(req, res){
 app.listen(process.env.PORT || 3000, function(){
     console.log("server started");
 });
-
-
-//END

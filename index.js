@@ -27,6 +27,7 @@ var guidelineTypeToName = {
   0: "A",
   1: "AA",
   2: "AAA",
+  3: "Indian Guidelines"
 }
 app.post("/",function(req, res){
     var newurl=req.body.url;

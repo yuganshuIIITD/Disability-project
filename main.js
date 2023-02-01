@@ -101,7 +101,7 @@ var vConsole = new jsdom.VirtualConsole();
 // }
 
 
-
+// new function
 async function getHtml(urlInput) {
     try {
         const browser = await puppeteer.launch();

@@ -11,6 +11,7 @@
 var jsdom = require("jsdom");
 var { JSDOM } = jsdom;
 var fs = require("fs");
+const puppeteer = require('puppeteer'); 
 
 // var util = require('util');
 
@@ -79,25 +80,43 @@ const guidelineCount = [wcag2aSize, wcag2aaSize, wcag2aaaSize, indianGuidelinesS
 var HTMLCS = fs.readFileSync("./build/HTMLCS.js", "utf-8");
 var vConsole = new jsdom.VirtualConsole();
 
-async function getHtml(urlInput) {
-  const dom = new JSDOM();
-  var htmlString = "";
-  var result = new Promise((resolve, reject) => {
-    JSDOM.fromURL(urlInput).then((dom) => {
-      //console.log(dom.serialize());
-      var temp = dom.serialize();
-      //htmlString = temp;
-      resolve((htmlString = temp));
-      //return htmlString;
-      //console.log(htmlString);
-    });
-  });
+// async function getHtml(urlInput) {
+//   const dom = new JSDOM();
+//   var htmlString = "";
+//   var result = new Promise((resolve, reject) => {
+//     JSDOM.fromURL(urlInput).then((dom) => {
+//       //console.log(dom.serialize());
+//       var temp = dom.serialize();
+//       //htmlString = temp;
+//       resolve((htmlString = temp));
+//       //return htmlString;
+//       //console.log(htmlString);
+//     });
+//   });
 
-  await result.then((data) => {
-    //console.log("printing htmlString ", htmlString);
-  });
-  return htmlString;
-}
+//   await result.then((data) => {
+//     //console.log("printing htmlString ", htmlString);
+//   });
+//   return htmlString;
+// }
+
+
+
+async function getHtml(urlInput) {
+    try {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();   
+        await page.goto(urlInput, { waitUntil: 'networkidle0' });
+        const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+        // console.log(data);
+        htmlString=data
+        await browser.close();
+      } catch (e) {
+        console.log("Error in getHTML", e);
+        noHtml=true;
+      }
+   return htmlString;
+ }
 
 async function evaluateWebsite(websiteHttp, guidelineType) {
   //document = Jsoup.connect(websiteHttp).get();

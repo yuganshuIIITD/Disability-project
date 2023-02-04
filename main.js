@@ -104,12 +104,13 @@ var vConsole = new jsdom.VirtualConsole();
 // new function
 async function getHtml(urlInput) {
     try {
-        const browser = await puppeteer.launch();
+       var htmlString = "";
+        const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
         const page = await browser.newPage();   
         await page.goto(urlInput, { waitUntil: 'networkidle0' });
         const data = await page.evaluate(() => document.querySelector('*').outerHTML);
         // console.log(data);
-        htmlString=data
+        htmlString=data;
         await browser.close();
       } catch (e) {
         console.log("Error in getHTML", e);

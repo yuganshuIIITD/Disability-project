@@ -109,7 +109,7 @@ async function getHtml(urlInput) {
         await page.goto(urlInput, { waitUntil: 'networkidle0' });
         const data = await page.evaluate(() => document.querySelector('*').outerHTML);
         // console.log(data);
-        htmlString=data
+        htmlString=data;
         await browser.close();
       } catch (e) {
         console.log("Error in getHTML", e);

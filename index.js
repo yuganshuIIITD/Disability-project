@@ -91,7 +91,7 @@ app.get("/guidelines", function(req, res){
 app.get("/submit", function(req, res){
   res.render("home");
 });
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 5000, function(){
     console.log("server started");
 });
 //end 

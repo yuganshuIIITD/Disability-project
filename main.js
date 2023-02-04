@@ -104,6 +104,7 @@ var vConsole = new jsdom.VirtualConsole();
 // new function
 async function getHtml(urlInput) {
     try {
+       var htmlString = "";
         const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
         const page = await browser.newPage();   
         await page.goto(urlInput, { waitUntil: 'networkidle0' });

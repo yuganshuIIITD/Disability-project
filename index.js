@@ -83,6 +83,11 @@ app.get("/Analytics", function(req, res){
     third_guide_lines:third_score
   });
 });
+app.get("/guidelines", function(req, res){
+  res.render("guidelines",{
+    list:messageList
+  });
+});
 app.get("/submit", function(req, res){
   res.render("home");
 });

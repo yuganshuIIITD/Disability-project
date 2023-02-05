@@ -24,15 +24,14 @@
       <a class="active" href="./resources">Resources</a>
     </div>
   </div>
-  <h1> guideline Followed </h1> 
+  <br>
+  <h1 style="text-align: center;"> Guideline Followed </h1> 
   <ul>
-    <% for (var result of list) { %>
-        <li>
-            <%= result %>
-        </li>
+    <% for (var i = 0; i < list.length ; i++) { %>
+        <li> <%= list[i] %> </li>
     <% } %>
-</ul>
-  <footer></footer>
+  </ul>
+  <footer>
   <div class="footer-basic">
     
       <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i

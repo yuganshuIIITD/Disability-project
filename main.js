@@ -105,7 +105,7 @@ var vConsole = new jsdom.VirtualConsole();
 async function getHtml(urlInput) {
     try {
        var htmlString = "";
-        const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
+        const browser = await puppeteer.launch();
         const page = await browser.newPage();   
         await page.goto(urlInput, { waitUntil: 'networkidle0' });
         const data = await page.evaluate(() => document.querySelector('*').outerHTML);
@@ -220,8 +220,34 @@ function evaluateScore(messageList, guidelineType ) {
   //Simple Calcaulation logic
   var score = guidelineCount[guidelineType] - guidelineSet.size;
   console.log(guidelineSet);
+  // return score;
   return score;
 }
+
+
+function guidelinelist(messageList, guidelineType ) {
+
+  //const list = [];
+
+  // const len = messageList.length;
+
+  const guidelineSet = new Set();
+  //Creating a set for guidelines not followed.
+  for (let i = 0; i < len; i++) {
+    //console.log(messageList[i]);
+    var mp = messageList[i];
+    var splitList = mp.toString().split("|");
+    var fineSplit = splitList.toString().split(".");
+    guidelineSet.add(fineSplit[3].substring(0, 5));
+    //console.log(fineSplit[3]);
+  }
+  // console.log(guidelineSet);
+  // return score;
+  return guidelineSet;
+}
+
+
+
 
 function toPercent(value, guidelineType) {
   return ((value / guidelineCount[guidelineType]) * 100).toFixed(2);

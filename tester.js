@@ -39,8 +39,16 @@ var newPromise = new Promise((resolve, reject) => {
 newPromise.then((message) => {
   console.log("messageList", message);
   //console.log("messageList Length", message.length);
-  var score = calFunctions.evaluateScore(message,3);
+  var guidelineSet;
+  var score= calFunctions.evaluateScore(message,3);
   console.log(score);
+  // console.log(guidelineSet);
+  // var returning= calFunctions.evaluateScore(message,3);
+  // console.log(returning.score);
+  // console.log(returning.guidelineSet);
+  var gset=calFunctions.guidelinelist(message,3);
+  console.log(gset);
+
   console.log(calFunctions.toPercent(score, 3));
 });
 console.log("executed");

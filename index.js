@@ -5,6 +5,7 @@ const calFunctions = require("./main.js");
 // const axe = require("./axe_core.js");
 const path = require('path');
 const { render } = require("ejs");
+const { Console } = require("console");
 // const Jasmine = require('jasmine');
 // const jasmine = new Jasmine().jasmine;
 // jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -23,6 +24,7 @@ var third_score=0;
 var third_per=0;
 var axescore=0;
 var messageList = [];
+var voilations={};
 var guidelineTypeToName = {
   0: "A",
   1: "AA",
@@ -34,11 +36,15 @@ app.post("/",function(req, res){
     var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
 
     var newPromise = new Promise((resolve, reject) => {
+        // resolve((voilations = calFunctions.guidelinelist(newurl, guidelineType)));
         resolve((messageList = calFunctions.evaluateWebsite(newurl, guidelineType)));
       });
       
       newPromise.then((message) => {
-        console.log("messageList", message);
+
+        // console.log("messageList", message);
+        console.log(voilations);
+        console.log(messageList);
         // console.log("messageList Length", message.length);
         score = calFunctions.evaluateScore(message, guidelineType);
         console.log(score);

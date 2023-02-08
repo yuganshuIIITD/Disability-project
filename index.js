@@ -24,7 +24,8 @@ var third_score=0;
 var third_per=0;
 var axescore=0;
 var messageList = [];
-var voilations={};
+// const voilations = new Set();
+var voilations=new Set();
 var guidelineTypeToName = {
   0: "A",
   1: "AA",
@@ -36,7 +37,7 @@ app.post("/",function(req, res){
     var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
 
     var newPromise = new Promise((resolve, reject) => {
-        // resolve((voilations = calFunctions.guidelinelist(newurl, guidelineType)));
+
         resolve((messageList = calFunctions.evaluateWebsite(newurl, guidelineType)));
       });
       
@@ -44,12 +45,14 @@ app.post("/",function(req, res){
 
         // console.log("messageList", message);
         console.log(voilations);
-        console.log(messageList);
+        // console.log(messageList);
         // console.log("messageList Length", message.length);
         score = calFunctions.evaluateScore(message, guidelineType);
         console.log(score);
         per=calFunctions.toPercent(score, guidelineType);
+        voilations=calFunctions.guidelinelist(message, guidelineType);
         // axescore = calFunctions.axeCore(newurl, guidelineType);
+        console.log(voilations);
         // per=calFunctions.toPercent(score, 61);
         console.log(per);
         // axel_per=axe.test_axe(newurl);
@@ -91,9 +94,12 @@ app.get("/Analytics", function(req, res){
 });
 app.get("/guidelines", function(req, res){
   // console.log("-->");
-  // console.log(messageList);
+  console.log(
+    Array.from(voilations.values()) // prints unique Array [1, 2, 3]
+  )
+  // console.log(voilations);
   res.render("guidelines",{
-    list:messageList
+    list:Array.from(voilations.values())
   });
 });
 app.get("/submit", function(req, res){

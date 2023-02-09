@@ -16,8 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",function(req, res){
     res.render("home");
 });
-var score=2;
-var per=0;
+// var score=0;
+// var per=0;
 var axel_score=0;
 var axel_per=0;
 var third_score=0;
@@ -25,7 +25,7 @@ var third_per=0;
 var axescore=0;
 var messageList = [];
 // const voilations = new Set();
-var voilations=new Set();
+// var voilations=new Set();
 var guidelineTypeToName = {
   0: "A",
   1: "AA",
@@ -42,19 +42,17 @@ app.post("/",function(req, res){
       });
       
       newPromise.then((message) => {
-
-        // console.log("messageList", message);
+        var voilations=new Set(); // changed
+        console.log("messageList", message);
+        var score=calFunctions.evaluateScore(message, guidelineType); //changed
+        voilations=calFunctions.listofviolations(message, guidelineType);
+        var per=calFunctions.toPercent(score, guidelineType);  //changed
         console.log(voilations);
-        // console.log(messageList);
-        // console.log("messageList Length", message.length);
-        score = calFunctions.evaluateScore(message, guidelineType);
         console.log(score);
-        per=calFunctions.toPercent(score, guidelineType);
-        voilations=calFunctions.guidelinelist(message, guidelineType);
-        // axescore = calFunctions.axeCore(newurl, guidelineType);
-        console.log(voilations);
-        // per=calFunctions.toPercent(score, 61);
         console.log(per);
+       
+
+        // console.log(per);
         // axel_per=axe.test_axe(newurl);
         console.log(axel_per);
         // const {execSync} = require('child_process');
@@ -69,7 +67,9 @@ app.post("/",function(req, res){
         console.log(score);
         console.log("executed");
 
-      });
+      }).catch((message) => {
+        console.error(message);
+    });
 
       
 });

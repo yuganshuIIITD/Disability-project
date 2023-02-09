@@ -1,23 +1,17 @@
-/*
-* First run evaluateWebsite
-* Input the url and then 0 , 1 , 2 or 3
-*  0 - WCAG2A
-*  1 - WCAG2AA
-*  2 - WCAG2AAA
-*  3 - Indian Guidelines
-* // And then using its output run evaluateScore
-* //  pass as evaluateScore(output from evaluateWebsite , <Number as give above 0,1,2 or 3>)
-*/
+/**
+ * First run evaluateWebsite
+ * Input the url and then 0 , 1 , 2 or 3
+ *  0 - WCAG2A
+ *  1 - WCAG2AA
+ *  2 - WCAG2AAA
+ *  3 - Indian Guidelines
+ * // And then using its output run evaluateScore
+ * //  pass as evaluateScore(output from evaluateWebsite , <Number as give above 0,1,2 or 3>)
+ */
 var jsdom = require("jsdom");
 var { JSDOM } = jsdom;
 var fs = require("fs");
 const puppeteer = require('puppeteer'); 
-
-// var util = require('util');
-
-/*
-* Global Values 
-*/
 
 //Indian Guidelines list
 const indianGuidelines = [
@@ -60,8 +54,6 @@ const indianGuidelines = [
   "4_1_2",
 ];
 
-
-
 //WCAG2A
 const wcag2aSize = 30;
 //WCAG2AA
@@ -71,76 +63,61 @@ const wcag2aaaSize = wcag2aaSize + 28;
 //Indian AAA
 const indianGuidelinesSize = 37;
 //Array for the below nums
-const guidelineCount = [wcag2aSize, wcag2aaSize, wcag2aaaSize, indianGuidelinesSize] 
-
-/**
-* Function starts
-*/
+const guidelineCount = [
+  wcag2aSize,
+  wcag2aaSize,
+  wcag2aaaSize,
+  indianGuidelinesSize,
+];
 
 var HTMLCS = fs.readFileSync("./build/HTMLCS.js", "utf-8");
 var vConsole = new jsdom.VirtualConsole();
+var noHtml = false;
 
-// async function getHtml(urlInput) {
-//   const dom = new JSDOM();
-//   var htmlString = "";
-//   var result = new Promise((resolve, reject) => {
-//     JSDOM.fromURL(urlInput).then((dom) => {
-//       //console.log(dom.serialize());
-//       var temp = dom.serialize();
-//       //htmlString = temp;
-//       resolve((htmlString = temp));
-//       //return htmlString;
-//       //console.log(htmlString);
-//     });
-//   });
-
-//   await result.then((data) => {
-//     //console.log("printing htmlString ", htmlString);
-//   });
-//   return htmlString;
-// }
-
-
-// new function
 async function getHtml(urlInput) {
-    try {
-       var htmlString = "";
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();   
-        await page.goto(urlInput, { waitUntil: 'networkidle0' });
-        const data = await page.evaluate(() => document.querySelector('*').outerHTML);
-        // console.log(data);
-        htmlString=data;
-        await browser.close();
-      } catch (e) {
-        console.log("Error in getHTML", e);
-        noHtml=true;
-      }
-   return htmlString;
- }
+  try {
+      var htmlString = "";
+      const browser = await puppeteer.launch();
+      // const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
+      const page = await browser.newPage();   
+      await page.goto(urlInput, { waitUntil: 'networkidle0' });
+      const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+      // const data = await page.content();
+      // console.log(data);
+      htmlString=data;
+      await browser.close();
+    } catch (e) {
+      console.log("I Encountered an error - URL is not of Type https://example.com ");
+      // console.log(e);
+      noHtml=true;
+      return;
+    }
+  // console.log(htmlString);  
+//  console.log("here"); 
+ return htmlString;
+}
 
-async function evaluateWebsite(websiteHttp, guidelineType) {
+async function evaluateWebsite(websiteHttp, guildelineType) {
   //document = Jsoup.connect(websiteHttp).get();
   //var websiteHtml = new XMLSerializer().serializeToString(doc)
   var messageList = [];
   // Forward messages to the console.
   vConsole.on("log", function (message) {
     if (message != "done") {
-
-      if(guidelineType !=3){
+      if (guildelineType != 3) {
         messageList.push(message);
-      } else if(isIndianGuidlines(message)){
+      } else if (isIndianGuidlines(message)) {
         messageList.push(message);
       }
-      
     }
   });
-  //await getHtml(websiteHttp);
   var urlInput = "";
+
   urlInput = await getHtml(websiteHttp);
-  //console.log("urlInput", urlInput);
-  //console.log(getHtml(websiteHttp,""));
-  //Evaluate website setup
+  if (noHtml == true) {
+    return [];
+  }
+ 
   var dom = new JSDOM(urlInput, {
     runScripts: "dangerously",
     virtualConsole: vConsole,
@@ -149,41 +126,18 @@ async function evaluateWebsite(websiteHttp, guidelineType) {
   //Running the evaluation of website
   dom.window.eval(HTMLCS);
 
-  if (guidelineType == 0) {
+  if (guildelineType == 0) {
     dom.window.HTMLCS_RUNNER.run("WCAG2A");
-  } else if (guidelineType == 1) {
+  } else if (guildelineType == 1) {
     dom.window.HTMLCS_RUNNER.run("WCAG2AA");
-  } else if (guidelineType == 2) {
+  } else if (guildelineType == 2) {
     dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
-  // } else if (guidelineType == 3) {
-  //   dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
+  } else if (guildelineType == 3) {
+    dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
   } else {
-    console.log("Incorrect guidelineType");
+    console.log("Incorrect guildelineType");
   }
-
-  //console.log(messageList);
   return messageList;
-}
-
-function axeCore(websiteHTTP, guidelineType) {
-  
-
-
-    // Call the axe.run function within the context of the virtual document.
-    // axe.run({
-    //   runOnly: {
-    //     values: [guidelineType]
-    //   }
-    // }, websiteHTTP, function(error, results) {
-    //   if (error) {
-    //     // An error occurred while running the analysis.
-    //     console.error(error);
-    //   } else {
-    //     // The analysis was successful.
-    //     console.log(results);
-    //   }
-    // });
-
 }
 
 function isIndianGuidlines(message) {
@@ -191,17 +145,19 @@ function isIndianGuidlines(message) {
   var fineSplit = splitList.toString().split(".");
   var finalM = fineSplit[3].substring(0, 5);
   //console.log("finallM",finalM);
-  if(indianGuidelines.includes(finalM)){
+  if (indianGuidelines.includes(finalM)) {
     //console.log("true")
     return true;
-  }else{
+  } else {
     return false;
   }
 }
 
-function evaluateScore(messageList, guidelineType ) {
-
-  //const list = [];
+function evaluateScore(messageList, guildelineType) {
+  if (messageList.length == 0) {
+    console.log("Empty Message List: Assigning 0 score");
+    return 0;
+  }
 
   const len = messageList.length;
 
@@ -218,16 +174,14 @@ function evaluateScore(messageList, guidelineType ) {
     //console.log(fineSplit[3]);
   }
   //Simple Calcaulation logic
-  var score = guidelineCount[guidelineType] - guidelineSet.size;
+  var score = guidelineCount[guildelineType] - guidelineSet.size;
   // console.log(guidelineSet);
   return score;
 }
-function guidelinelist(messageList, guidelineType ) {
 
-  //const list = [];
+function listofviolations(messageList, guidelineType ) {
 
   const len = messageList.length;
-
   const guidelineSet = new Set();
   //Creating a set for guidelines not followed.
   for (let i = 0; i < len; i++) {
@@ -238,14 +192,20 @@ function guidelinelist(messageList, guidelineType ) {
     guidelineSet.add(fineSplit[3].substring(0, 5));
     //console.log(fineSplit[3]);
   }
-  // console.log(guidelineSet);
-  // return score;
   return guidelineSet;
 }
 
-function toPercent(value, guidelineType) {
-  return ((value / guidelineCount[guidelineType]) * 100).toFixed(2);
+function toPercent(value, guildelineType) {
+  var returnValue = 0.0;
+  try {
+    returnValue = ((value / guidelineCount[guildelineType]) * 100).toFixed(2);
+  } catch (e) {
+    console.error("toPercent error:",e);
+    return returnValue;
+  } finally {
+    return returnValue;
+  }
 }
 
-module.exports = { evaluateWebsite, evaluateScore, toPercent, axeCore,guidelinelist};
-// module.exports = evaluateScore;
+module.exports = { evaluateWebsite, evaluateScore, toPercent,listofviolations};
+

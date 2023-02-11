@@ -35,7 +35,7 @@ var guidelineTypeToName = {
 app.post("/",function(req, res){
     var newurl=req.body.url;
     var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
-
+    // console.log(" here ");
     var newPromise = new Promise((resolve, reject) => {
 
         resolve((messageList = calFunctions.evaluateWebsite(newurl, guidelineType)));
@@ -105,7 +105,7 @@ app.get("/guidelines", function(req, res){
 app.get("/submit", function(req, res){
   res.render("home");
 });
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 5000, function(){
     console.log("server started");
 });
 //end 

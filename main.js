@@ -75,9 +75,10 @@ var vConsole = new jsdom.VirtualConsole();
 var noHtml = false;
 
 async function getHtml(urlInput) {
+  var htmlString = "";
+  const browser = await puppeteer.launch();
+  noHtml = false;
   try {
-      var htmlString = "";
-      const browser = await puppeteer.launch();
       // const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
       const page = await browser.newPage();   
       await page.goto(urlInput, { waitUntil: 'networkidle0' });
@@ -85,15 +86,18 @@ async function getHtml(urlInput) {
       // const data = await page.content();
       // console.log(data);
       htmlString=data;
+      console.log(htmlString);
       await browser.close();
     } catch (e) {
       console.log("I Encountered an error - URL is not of Type https://example.com ");
       // console.log(e);
       noHtml=true;
-      return;
+      await browser.close();
+      return htmlString;
     }
   // console.log(htmlString);  
 //  console.log("here"); 
+ await browser.close();
  return htmlString;
 }
 
@@ -169,8 +173,12 @@ function evaluateScore(messageList, guildelineType) {
     var mp = messageList[i];
     var splitList = mp.toString().split("|");
     var fineSplit = splitList.toString().split(".");
-
+    // try{
     guidelineSet.add(fineSplit[3].substring(0, 5));
+    // }
+    // catch(e){
+    //   console.log(e);
+    // }
     //console.log(fineSplit[3]);
   }
   //Simple Calcaulation logic

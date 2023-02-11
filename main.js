@@ -77,7 +77,8 @@ var noHtml = false;
 async function getHtml(urlInput) {
   var htmlString = "";
   noHtml=false;
-  const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
+  const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome'});
   try {
       const page = await browser.newPage();   
       await page.goto(urlInput, { waitUntil: 'networkidle0' });

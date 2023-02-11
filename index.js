@@ -38,7 +38,7 @@ app.post("/",function(req, res){
     var newurl=req.body.url;
     var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
     // console.log(" here ");
-    console.log(guidelineType);
+    // console.log(guidelineType);
     messageList = [];
 
     var newPromise = new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ app.post("/",function(req, res){
       
       newPromise.then((message) => {
         voilations=new Set(); // changed
-        // console.log("messageList", message);
+        console.log("messageList", message);
         var score=calFunctions.evaluateScore(message, guidelineType); //changed
         voilations=calFunctions.listofviolations(message, guidelineType);
         var per=calFunctions.toPercent(score, guidelineType);  //changed

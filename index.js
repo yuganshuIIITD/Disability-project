@@ -24,8 +24,9 @@ var third_score=0;
 var third_per=0;
 var axescore=0;
 var messageList = [];
+
 // const voilations = new Set();
-// var voilations=new Set();
+var voilations=new Set();
 var guidelineTypeToName = {
   0: "A",
   1: "AA",
@@ -33,17 +34,21 @@ var guidelineTypeToName = {
   3: "Indian Guidelines"
 }
 app.post("/",function(req, res){
+    
     var newurl=req.body.url;
     var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
     // console.log(" here ");
-    var newPromise = new Promise((resolve, reject) => {
+    console.log(guidelineType);
+    messageList = [];
 
-        resolve((messageList = calFunctions.evaluateWebsite(newurl, guidelineType)));
-      });
+    var newPromise = new Promise((resolve, reject) => {
+      resolve(messageList = calFunctions.evaluateWebsite(newurl, guidelineType));
+      // throw new Error("Whoops! URL is wrong");
+    });
       
       newPromise.then((message) => {
-        var voilations=new Set(); // changed
-        console.log("messageList", message);
+        voilations=new Set(); // changed
+        // console.log("messageList", message);
         var score=calFunctions.evaluateScore(message, guidelineType); //changed
         voilations=calFunctions.listofviolations(message, guidelineType);
         var per=calFunctions.toPercent(score, guidelineType);  //changed
@@ -67,8 +72,8 @@ app.post("/",function(req, res){
         console.log(score);
         console.log("executed");
 
-      }).catch((message) => {
-        console.error(message);
+      }).catch((error) => {
+        console.log(error);
     });
 
       
@@ -105,7 +110,7 @@ app.get("/guidelines", function(req, res){
 app.get("/submit", function(req, res){
   res.render("home");
 });
-app.listen(process.env.PORT || 5000, function(){
+app.listen(process.env.PORT || 3000, function(){
     console.log("server started");
 });
 //end 

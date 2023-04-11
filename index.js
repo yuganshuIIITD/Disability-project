@@ -50,7 +50,7 @@ app.post("/",function(req, res){
       
       newPromise.then((message) => {
         voilations=new Set(); // changed
-        console.log("messageList", message);
+        // console.log("messageList", message);
         var score=calFunctions.evaluateScore(message, guidelineType); //changed
         voilations=calFunctions.listofviolations(message, guidelineType);
         var per=calFunctions.toPercent(score, guidelineType);  //changed
@@ -94,6 +94,8 @@ app.post("/",function(req, res){
                 console.log("this is alfa score");
                 console.log(alfa_score);
                 alfa_per=alfa_fun.toPercent(alfa_score,guidelineTypeList[guidelineType]);
+                console.log("this is alfa's percentage")
+                console.log(alfa_per);
                 res.render("Score", {
                   url:newurl,
                   html_code_sniffer:score,

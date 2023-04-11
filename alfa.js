@@ -249,10 +249,9 @@ var indianGuidelinesSet = ['1.1.1',
     '4.1.2'
 ];
 var isJsonEmpty = true;
-
+var rulesNotFollowedSet = new Set();
 var makeSet = [];
 function evaluateUrlAlfa(urlInput, guideLineType) {
-    var rulesNotFollowedSet = new Set();
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
@@ -297,6 +296,7 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                                     if (outcomes !== undefined) {
                                         isJsonEmpty = false;
                                         values = __spreadArray([], __read(outcomes), false);
+                                        console.log("Outcome Defined");
                                         values.forEach(function (jsonObj) {
                                             //console.log(jsonObj)
                                             if (findUriForFailed(jsonObj) !== '') {
@@ -324,6 +324,9 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                                         //     console.log(values[key]);
                                         // }
                                         //loopKeys(values);
+                                    }
+                                    else {
+                                        console.log("Outcome undefined");
                                     }
                                     return [2 /*return*/];
                             }
@@ -365,6 +368,7 @@ function findUri(obj) {
 }
 function evaluateScore(rulesNotFollowed, guideLineType) {
     if (isJsonEmpty === true) {
+        console.log("Evaluation failed for the website");
         return 0;
     }
     return ruleCount[guideLineType] - rulesNotFollowed;

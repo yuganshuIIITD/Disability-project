@@ -1,6 +1,5 @@
 import { Audit } from "@siteimprove/alfa-act";
 import { Scraper } from "@siteimprove/alfa-scraper";
-
 import rules from "@siteimprove/alfa-rules";
 
 /**
@@ -180,6 +179,7 @@ let indianGuidelinesSet: string[] = ['1.1.1',
 var isJsonEmpty = true;
 let rulesNotFollowedSet = new Set<string>();
 var makeSet: any = []
+
 async function evaluateUrlAlfa(urlInput: string, guideLineType: string): Promise<any[]> {
   await Scraper.with(async (scraper) => {
     var outcomes;
@@ -193,6 +193,7 @@ async function evaluateUrlAlfa(urlInput: string, guideLineType: string): Promise
     if (outcomes !== undefined) {
       isJsonEmpty = false;
       const values = [...outcomes]
+      console.log("Outcome Defined")
       values.forEach((jsonObj: any) => {
         //console.log(jsonObj)
         if (findUriForFailed(jsonObj) !== '') {
@@ -218,8 +219,10 @@ async function evaluateUrlAlfa(urlInput: string, guideLineType: string): Promise
       //     console.log(values[key]);
       // }
       //loopKeys(values);
+    } 
+    else{
+      console.log("Outcome undefined")
     }
-    //console.log(outcomes)
   });
   //console.log("returning already",makeSet)
   return makeSet;
@@ -256,6 +259,7 @@ function findUri(obj: any): string {
 
 function evaluateScore(rulesNotFollowed: number, guideLineType: string): number {
   if (isJsonEmpty === true) {
+    console.log("Evaluation failed for the website")
     return 0;
   }
   return ruleCount[guideLineType] - rulesNotFollowed

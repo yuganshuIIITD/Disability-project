@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disability friendliness portal Analytics page</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axe-core@4.4.0/axe.min.js"></script>
+</head>
+
+<body>
+  <div class="header">
+    <a href="/" class="logo">Disability friendliness webpage</a>
+    <div class="header-right">
+      <a href="/">Home</a>
+      <a href="./contact">Contact us</a>
+      <a href="./feedback">Feedback</a>
+      <a class="active" href="./analytics">Analytics</a>
+      <a href="./resources">Resources</a>
+    </div>
+  </div>
+
+  <canvas id="myChart1" style="max-width:48%;"></canvas>
+  <canvas id="myChart2" style="max-width:48%;"></canvas>
+  <canvas id="myChart3" style="max-width:400px;position: absolute;bottom: 10px;right: 10%;"></canvas>
+  <canvas id="myChart4" style="max-width:300px;"></canvas>
+  <canvas id="myChart5" style="max-width:300px;"></canvas>
+  <canvas id="myChart6" style="max-width:300px;"></canvas>
+
+  <!-- <h1><%= html_code_score %></h1>
+    <h1><%= html_code_guide_lines %></h1>
+    <h1><%= axel_core_score %></h1>
+    <h1><%= axel_core_guide_lines %></h1>
+    <h1><%= third_score %></h1>
+    <h1><%= third_guide_lines %></h1> -->
+
+  <script src="chart.js"></script>
+  <script>
+    var xValues = ["Delhi", "Uttar Pradesh", "Haryana", "Punjab", "Himachal Pradesh"];
+    var yValues = [1155, 2349, 144, 124, 915];
+    var barColors = ["red", "green", "blue", "orange", "brown"];
+
+
+
+    var xValues2 = ["CodeSniffer", "Axe Core", "Alfa"];
+    var yValues2 = [<%= html_code_guide_lines %>, 20, 24, 0];
+
+
+    var xValues3 = ["CodeSniffer", "Axe Core", "Alfa"];
+    var yValues3 = [<%= html_code_score %>, 45, 28];
+
+    var xValues4 = ["CodeSniffer", "Rest Not Follow"];
+    var yValues4 = [<%= html_code_score %>, 100, -<%= html_code_score %>];
+
+    var xValues5 = ["Axe Core", "Rest Not Follow"];
+    var yValues5 = [1, 28];
+
+    var xValues6 = ["Alfa", "Rest not follow"];
+    var yValues6 = [9, 28];
+
+
+
+
+
+    new Chart("myChart1", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "No. of Hits Statewise"
+        }
+      }
+    })
+
+    new Chart("myChart2", {
+      type: "bar",
+      data: {
+        labels: xValues2,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues2
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Score Comparsion"
+        }
+      }
+    })
+
+    new Chart("myChart3", {
+      type: "pie",
+      data: {
+        labels: xValues3,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues3
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Score Comparsion"
+        }
+      }
+    })
+
+    new Chart("myChart4", {
+      type: "pie",
+      data: {
+        labels: xValues4,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues4
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "CodeSniffer %"
+        }
+      }
+    })
+
+    new Chart("myChart5", {
+      type: "pie",
+      data: {
+        labels: xValues5,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues5
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Axe Core %"
+        }
+      }
+    })
+
+    new Chart("myChart6", {
+      type: "pie",
+      data: {
+        labels: xValues6,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues6
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Alfa %"
+        }
+      }
+    })
+
+  </script>
+
+</body>
+
+</html>
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disability friendliness portal feedback form</title>
+    
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+<body>
+  <div class="header">
+    <a href="/" class="logo">Disability friendliness webpage</a>
+      <div class="header-right">
+      <a href="/">Home</a>
+      <a href="./contact">Contact us</a>
+      <a href="./feedback">Feedback</a>
+      <a class="active" href="./analytics">Analytics</a>
+    </div>
+    </div>
+
+    <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+    <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+    <h1><%= html_code_score %></h1>
+    <h1><%= html_code_guide_lines %></h1>
+    <h1><%= axel_core_score %></h1>
+    <h1><%= axel_core_guide_lines %></h1>
+    <h1><%= third_score %></h1>
+    <h1><%= third_guide_lines %></h1>
+
+<script src="chart.js"></script>
+<script src="file1.js"></script>
+<script>
+var xValues = ["Delhi", "Uttar Pradesh", "Haryana", "Punjab", "Himachal Pradesh"];
+var yValues = [1155, 2349, 144, 124, 915];
+var barColors = ["red", "green","blue","orange","brown"];
+
+
+
+var xValues2 = ["Delhi", "Uttar Pradesh", "Haryana", "Punjab", "Himachal Pradesh"];
+var yValues2 = [155, 249, 44, 14, 95];
+
+
+
+
+
+new Chart("myChart1", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "No. of Hits Statewise"
+    }
+  }
+})
+new Chart("myChart2", {
+  type: "line",
+  data: {
+    labels: xValues2,
+    datasets: [{
+      
+      data: yValues2
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "User base change graph"
+    }
+  }
+});
+</script>
+
+</body>
+</html> -->

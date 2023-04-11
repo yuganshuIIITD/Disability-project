@@ -1,0 +1,30 @@
+{
+  "name": "disability",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "jasmine init",
+    "test": "jasmine axe_core.js"
+  },
+  "author": "yuganshu, aditi, jaskaran",
+  "license": "ISC",
+  "dependencies": {
+    "@siteimprove/alfa-act": "^0.58.0",
+    "@siteimprove/alfa-rules": "^0.58.0",
+    "@siteimprove/alfa-scraper": "^0.58.0",
+    "axe-webdriverjs": "^2.3.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "jsdom": "^20.0.2",
+    "puppeteer": "^19.6.3",
+    "scrapper": "^1.0.1",
+    "selenium-webdriver": "^4.7.1",
+    "ssl-checker": "^2.0.8",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "jasmine": "^4.5.0"
+  }
+}

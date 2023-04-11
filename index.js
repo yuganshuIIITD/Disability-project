@@ -7,10 +7,7 @@ const alfa_fun = require("./alfa.js");
 const path = require('path');
 const { render } = require("ejs");
 const { Console } = require("console");
-// const Jasmine = require('jasmine');
-// const jasmine = new Jasmine().jasmine;
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-// app.use(express.static('public'));
+
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'css')));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,41 +32,37 @@ var guidelineTypeToName = {
   3: "Indian Guidelines"
 }
 app.post("/",function(req, res){
+
+
+  res.setHeader("Cache-Control", "max-age=0, no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
     
     var newurl=req.body.url;
     var gt=req.body.guidelineType;
     var guidelineType = Object.keys(guidelineTypeToName).find(key => guidelineTypeToName[key] === req.body.guidelineType);
     // console.log(" here ");
-    // console.log(guidelineType);
+    // console.log(guidelineType);  
     messageList = [];
     var alfa_score=0;
-    var newPromise = new Promise((resolve, reject) => {
-      resolve(messageList = calFunctions.evaluateWebsite(newurl, guidelineType));
-      // throw new Error("Whoops! URL is wrong");
-    });
-      
-      newPromise.then((message) => {
-        voilations=new Set(); // changed
-        // console.log("messageList", message);
-        var score=calFunctions.evaluateScore(message, guidelineType); //changed
-        voilations=calFunctions.listofviolations(message, guidelineType);
-        var per=calFunctions.toPercent(score, guidelineType);  //changed
-        console.log(voilations);
-        console.log(score);
-        console.log(per);
+    var alfa_per=0;
         
-        var messageListAlfa = [];
-        var sslResult;
-        var newPromise_alfa = new Promise((resolve, reject) => {
-          var sslChecker = require("ssl-checker");
-          var url = require('url');
-          resolve(
+    var messageListAlfa = [];
+    var score=0;
+    var per=0;
+    var sslResult;
+
+    var newPromise_alfa = new Promise((resolve, reject) => {
+      var sslChecker = require("ssl-checker");
+      var url = require('url');
+        resolve(
             sslChecker(url.parse(newurl).hostname).then((result) => sslResult = result )
-          );
-        }).catch((e) => {
-            console.error("Error in ssl check: ",e);
-            //console.log("Some error in http check ssl checker");
-          });
+        );
+      }).catch((e) => {
+          console.error("Error in ssl check: ",e);
+          //console.log("Some error in http check ssl checker");
+        });
+
         newPromise_alfa.then((message) => {
             console.info("ssl Checker Results:",sslResult);
             // console.log(sslResult);
@@ -94,7 +87,7 @@ app.post("/",function(req, res){
                 console.log("this is alfa score");
                 console.log(alfa_score);
                 alfa_per=alfa_fun.toPercent(alfa_score,guidelineTypeList[guidelineType]);
-                console.log("this is alfa's percentage")
+                console.log("this is alfa percentage")
                 console.log(alfa_per);
                 res.render("Score", {
                   url:newurl,
@@ -113,34 +106,9 @@ app.post("/",function(req, res){
             .finally(()=>{
               console.log("executed all call promises");
             })
-        });
-        
-
-
-
-
-
-        // // console.log(per);
-        // // axel_per=axe.test_axe(newurl);
-        // console.log(axel_per);
-        // // const {execSync} = require('child_process');
-        // // execSync('sleep 10');
-        // res.render("Score", {
-        //     url:newurl,
-        //     html_code_sniffer:score,
-        //     html_code_sniffer_per:per,
-        //     Axel_code:axel_per,
-        //     Score3:alfa_score
-        // })
-        // console.log(score);
-        // console.log("executed");
-
-      }).catch((error) => {
-        console.log(error);
-    });
-
-      
+      });
 });
+
 app.get("/contact", function(req, res){
     res.render("contact");
   });

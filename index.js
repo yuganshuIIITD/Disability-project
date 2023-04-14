@@ -28,6 +28,7 @@ var messageList = [];
 let guidelineTypeList = ['A','AA','AAA','InGuideline']
 // const voilations = new Set();
 var voilations=new Set();
+var voilations_alfa=new Set();
 var guidelineTypeToName = {
   0: "A",
   1: "AA",
@@ -87,6 +88,7 @@ app.post("/",function(req, res){
                   * Calculation Function Call
                   */
                 console.log("Failed Guideline", message);
+                voilations_alfa=message;
                 //console.log("messageList Length", message.length);
                 //var rulesNotFollowedSet = calFunctions.getSetOfFailedRules(message);
                 console.log("Failed count",message.length)
@@ -174,6 +176,17 @@ app.get("/guidelines", function(req, res){
     list:Array.from(voilations.values())
   });
 });
+app.get("/guidelines_alfa", function(req, res){
+  // console.log("-->");
+  console.log(
+    Array.from(voilations_alfa.values()) // prints unique Array [1, 2, 3]
+  )
+  // console.log(voilations);
+  res.render("guidelines",{
+    list:Array.from(voilations_alfa.values())
+  });
+});
+
 app.get("/submit", function(req, res){
   res.render("home");
 });

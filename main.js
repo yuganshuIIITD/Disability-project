@@ -88,8 +88,8 @@ async function getHtml(urlInput) {
       htmlString=data;
       await browser.close();
     } catch (e) {
-      console.log("I Encountered an error - URL is not of Type https://example.com ");
-      // console.log(e);
+      console.log("I Encountered an error");
+      console.log(e);
       noHtml=true;
       await browser.close();
       return htmlString;

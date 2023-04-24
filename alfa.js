@@ -76,6 +76,7 @@ exports.toPercent = exports.evaluateScore = exports.evaluateUrlAlfa = void 0;
 var alfa_act_1 = require("@siteimprove/alfa-act");
 var alfa_scraper_1 = require("@siteimprove/alfa-scraper");
 var alfa_rules_1 = require("@siteimprove/alfa-rules");
+var puppeteer = require('puppeteer');
 /**
  * Dictionary for Alfa Rules
  */
@@ -251,8 +252,10 @@ var indianGuidelinesSet = ['1.1.1',
 var isJsonEmpty = true;
 
 var makeSet = [];
+var messageListUri = [];
 function evaluateUrlAlfa(urlInput, guideLineType) {
     var rulesNotFollowedSet = new Set();
+    messageListUri = [];
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
@@ -264,6 +267,8 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                             switch (_d.label) {
                                 case 0:
                                     isJsonEmpty = true;
+                                    makeSet = [];
+                                    rulesNotFollowedSet = new Set();
                                     _d.label = 1;
                                 case 1:
                                     _d.trys.push([1, 7, 8, 9]);
@@ -274,9 +279,10 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                                 case 3:
                                     if (!!_b.done) return [3 /*break*/, 6];
                                     input = _b.value;
-                                    return [4 /*yield*/, alfa_act_1.Audit.of(input, alfa_rules_1["default"]).evaluate()];
+                                    return [4 /*yield*/, alfa_act_1.Audit.of(input, alfa_rules_1["default"]).evaluate().map(function (outcomes) { return __spreadArray([], __read(outcomes), false); })];
                                 case 4:
                                     outcomes = _d.sent();
+                                    ;
                                     _d.label = 5;
                                 case 5:
                                     _b = _a.next();
@@ -293,10 +299,10 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                                     finally { if (e_1) throw e_1.error; }
                                     return [7 /*endfinally*/];
                                 case 9:
-                                    //console.log(typeof outcomes)
                                     if (outcomes !== undefined) {
                                         isJsonEmpty = false;
                                         values = __spreadArray([], __read(outcomes), false);
+                                        console.log("Outcome Defined");
                                         values.forEach(function (jsonObj) {
                                             //console.log(jsonObj)
                                             if (findUriForFailed(jsonObj) !== '') {
@@ -304,26 +310,28 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                                                     if (element !== 'NULL') {
                                                         if (wcagAlfaDictionary[element] === 'A') {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                         else if ((guideLineType === 'AA' || guideLineType === 'AAA') && wcagAlfaDictionary[element] === 'AA') {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                         else if (guideLineType === 'AAA' && wcagAlfaDictionary[element] === 'AAA') {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                         else if (guideLineType === 'InGuideline' && indianGuidelinesSet.includes(element)) {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                     }
                                                 });
                                             }
                                         });
                                         makeSet = __spreadArray([], __read(rulesNotFollowedSet), false);
-                                        //console.log(makeSet)
-                                        //   for (let key of Object.keys(values)) {
-                                        //     console.log(values[key]);
-                                        // }
-                                        //loopKeys(values);
+                                    }
+                                    else {
+                                        console.log("Outcome undefined");
                                     }
                                     return [2 /*return*/];
                             }
@@ -331,6 +339,7 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                     }); })];
                 case 1:
                     _a.sent();
+                    console.log("Rules not followed from main", rulesNotFollowedSet);
                     //console.log("returning already",makeSet)
                     return [2 /*return*/, makeSet];
             }
@@ -349,6 +358,19 @@ function findUriForFailed(obj) {
         return '';
     }
 }
+
+
+function getMessageListURI() {
+    var uniqueList = messageListUri.filter(function (item, index) {
+        return index === messageListUri.findIndex(function (i) {
+            return i[0] === item[0] && i[1] === item[1];
+        });
+    });
+    uniqueList.sort(function (a, b) { return Number(a[0]) - Number(b[0]); });
+    return uniqueList;
+}
+exports.getMessageListURI = getMessageListURI;
+
 function findUri(obj) {
     for (var key in obj) {
         if (key === '_uri') {
@@ -365,6 +387,7 @@ function findUri(obj) {
 }
 function evaluateScore(rulesNotFollowed, guideLineType) {
     if (isJsonEmpty === true) {
+        console.log("Evaluation failed for the website");
         return 0;
     }
     return ruleCount[guideLineType] - rulesNotFollowed;

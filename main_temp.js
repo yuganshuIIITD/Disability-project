@@ -131,70 +131,35 @@ async function evaluateWebsite(websiteHttp, guildelineType) {
   });
   
   //Running the evaluation of website
-  dom.window.eval(HTMLCS);
+//   dom.window.eval(HTMLCS);
 
   // console.log("here");
-  if (guildelineType == 0) {
-    dom.window.HTMLCS_RUNNER.run("WCAG2A");
-  } else if (guildelineType == 1) {
-    dom.window.HTMLCS_RUNNER.run("WCAG2AA");
-  } else if (guildelineType == 2) {
-    dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
-  } else if (guildelineType == 3) {
-    dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
-  } else {
-    console.log("Incorrect guildelineType");
-  }
+//   if (guildelineType == 0) {
+//     dom.window.HTMLCS_RUNNER.run("WCAG2A");
+//   } else if (guildelineType == 1) {
+//     dom.window.HTMLCS_RUNNER.run("WCAG2AA");
+//   } else if (guildelineType == 2) {
+//     dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
+//   } else if (guildelineType == 3) {
+//     dom.window.HTMLCS_RUNNER.run("WCAG2AAA");
+//   } else {
+//     console.log("Incorrect guildelineType");
+//   }
 
   // console.log("here 2");
-  return messageList;
-}
 
-
-/**
- * 
- * @param {*} messageList 
- * @returns 0 index is Guideline violation type like warning , notice and  [HTMLCS] Warning',
- * 1 index is WCAG2AAA.Principle1.Guideline1_3.1_3_1.H49.Font' -> guideline id
- * 2 index is font',
- * 3 index is ""
- * 4 index is desciption
- * 5 index(occurs in some) is <font color="#b30000" size="2">...</font>'
- */ 
-function messageListExtract(messageList){
-
-  var messageListArray = new Array(7,messageList.length);
-  for (let i = 0; i < messageList.length; i++) {
-    const parts = messageList[i].split('|');
-    messageListArray[i]=parts;
-    // messageListArray[i][0]=originalString.replace("[HTMLCS] Notice", "");
-
-  }
-  // console.log("messagelist", messageListArray);
-
-
-  // '[HTMLCS] Warning',
-  // 'WCAG2AAA.Principle1.Guideline1_3.1_3_1.H49.Font',
-  // 'font',
-  // '',
-  // 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
-  // '<font color="#b30000" size="2">...</font>'
-  return messageListArray;
-}
-
-
-function sortArrayByStringFormat(arr) {
-  // Use custom sorting logic to sort by the "3_2_4" format in the second element
-  arr.sort(function(a, b) {
-    const formatA = a[1].match(/\d+_\d+_\d+/)[0];
-    const formatB = b[1].match(/\d+_\d+_\d+/)[0];
-    return formatA.localeCompare(formatB);
+  await page.evaluate(function () {
+    if (guildelineType == 0) {
+         HTMLCS_RUNNER.run('WCAG2AA');
+    }
   });
 
-  return arr;
+
+
+
+
+  return messageList;
 }
-
-
 
 function isIndianGuidlines(message) {
   var splitList = message.toString().split("|");
@@ -263,7 +228,7 @@ function toPercent(value, guildelineType) {
   }
 }
 
-module.exports = { evaluateWebsite, evaluateScore, toPercent,listofviolations,messageListExtract,sortArrayByStringFormat};
+module.exports = { evaluateWebsite, evaluateScore, toPercent,listofviolations};
 
 
 

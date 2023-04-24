@@ -180,6 +180,8 @@ let indianGuidelinesSet: string[] = ['1.1.1',
 var isJsonEmpty = true;
 let rulesNotFollowedSet = new Set<string>();
 var makeSet: any = []
+
+var messageListUri: string[][] = []
 async function evaluateUrlAlfa(urlInput: string, guideLineType: string): Promise<any[]> {
   await Scraper.with(async (scraper) => {
     var outcomes;
@@ -200,12 +202,16 @@ async function evaluateUrlAlfa(urlInput: string, guideLineType: string): Promise
             if (element !== 'NULL') {
               if (wcagAlfaDictionary[element] === 'A') {
                 rulesNotFollowedSet.add(element)
+                messageListUri.push([element, findUriForFailed(jsonObj)])
               } else if ((guideLineType === 'AA' || guideLineType === 'AAA') && wcagAlfaDictionary[element] === 'AA') {
                 rulesNotFollowedSet.add(element)
+                messageListUri.push([element, findUriForFailed(jsonObj)])
               } else if (guideLineType === 'AAA' && wcagAlfaDictionary[element] === 'AAA') {
                 rulesNotFollowedSet.add(element)
+                messageListUri.push([element, findUriForFailed(jsonObj)])
               } else if (guideLineType === 'InGuideline' && indianGuidelinesSet.includes(element)) {
                 rulesNotFollowedSet.add(element)
+                messageListUri.push([element, findUriForFailed(jsonObj)])
               }
             }
           })
@@ -237,6 +243,16 @@ function findUriForFailed(obj: any): string {
   else {
     return '';
   }
+}
+
+
+function getMessageListURI(): string[][] {
+  const uniqueList = messageListUri.filter((item, index) => {
+    return index === messageListUri.findIndex((i) => {
+      return i[0] === item[0] && i[1] === item[1];
+    });
+  });
+  return uniqueList
 }
 
 function findUri(obj: any): string {
@@ -275,4 +291,4 @@ function toPercent(value: number, guideLineType: string): number {
   }
 }
 
-export { evaluateUrlAlfa, evaluateScore, toPercent }
+export { evaluateUrlAlfa, evaluateScore, toPercent, getMessageListURI }

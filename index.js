@@ -28,7 +28,9 @@ var messageList = [];
 let guidelineTypeList = ['A','AA','AAA','InGuideline']
 // const voilations = new Set();
 var voilations=new Set();
+var voilations_des=[];
 var voilations_alfa=new Set();
+var alfa_vol_des=[];
 var guidelineTypeToName = {
   0: "A",
   1: "AA",
@@ -54,6 +56,8 @@ app.post("/",function(req, res){
         console.log("messageList", message);
         var score=calFunctions.evaluateScore(message, guidelineType); //changed
         voilations=calFunctions.listofviolations(message, guidelineType);
+        voilations_des=calFunctions.messageListExtract(message);
+        console.log(voilations_des);
         var per=calFunctions.toPercent(score, guidelineType);  //changed
         console.log(voilations);
         console.log(score);
@@ -89,6 +93,7 @@ app.post("/",function(req, res){
                   */
                 console.log("Failed Guideline", message);
                 voilations_alfa=message;
+
                 //console.log("messageList Length", message.length);
                 //var rulesNotFollowedSet = calFunctions.getSetOfFailedRules(message);
                 console.log("Failed count",message.length)
@@ -96,6 +101,8 @@ app.post("/",function(req, res){
                 console.log("this is alfa score");
                 console.log(alfa_score);
                 alfa_per=alfa_fun.toPercent(alfa_score,guidelineTypeList[guidelineType]);
+                alfa_vol_des=alfa_fun.getMessageListURI();
+                console.log(alfa_vol_des);
                 res.render("Score", {
                   url:newurl,
                   html_code_sniffer:score,
@@ -171,9 +178,10 @@ app.get("/guidelines", function(req, res){
   console.log(
     Array.from(voilations.values()) // prints unique Array [1, 2, 3]
   )
-  // console.log(voilations);
+  console.log(voilations_des);
   res.render("guidelines",{
-    list:Array.from(voilations.values())
+    list:Array.from(voilations.values()),
+    vol_des:voilations_des
   });
 });
 app.get("/guidelines_alfa", function(req, res){
@@ -182,8 +190,9 @@ app.get("/guidelines_alfa", function(req, res){
     Array.from(voilations_alfa.values()) // prints unique Array [1, 2, 3]
   )
   // console.log(voilations);
-  res.render("guidelines",{
-    list:Array.from(voilations_alfa.values())
+  res.render("guidelines_alfa",{
+    list:Array.from(voilations_alfa.values()),
+    vol:alfa_vol_des
   });
 });
 

@@ -252,8 +252,10 @@ var indianGuidelinesSet = ['1.1.1',
 var isJsonEmpty = true;
 
 var makeSet = [];
+var messageListUri = [];
 function evaluateUrlAlfa(urlInput, guideLineType) {
     var rulesNotFollowedSet = new Set();
+    messageListUri = [];
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
@@ -308,15 +310,19 @@ function evaluateUrlAlfa(urlInput, guideLineType) {
                                                     if (element !== 'NULL') {
                                                         if (wcagAlfaDictionary[element] === 'A') {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                         else if ((guideLineType === 'AA' || guideLineType === 'AAA') && wcagAlfaDictionary[element] === 'AA') {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                         else if (guideLineType === 'AAA' && wcagAlfaDictionary[element] === 'AAA') {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                         else if (guideLineType === 'InGuideline' && indianGuidelinesSet.includes(element)) {
                                                             rulesNotFollowedSet.add(element);
+                                                            messageListUri.push([element, findUriForFailed(jsonObj)]);
                                                         }
                                                     }
                                                 });
@@ -352,6 +358,19 @@ function findUriForFailed(obj) {
         return '';
     }
 }
+
+
+function getMessageListURI() {
+    var uniqueList = messageListUri.filter(function (item, index) {
+        return index === messageListUri.findIndex(function (i) {
+            return i[0] === item[0] && i[1] === item[1];
+        });
+    });
+    uniqueList.sort(function (a, b) { return Number(a[0]) - Number(b[0]); });
+    return uniqueList;
+}
+exports.getMessageListURI = getMessageListURI;
+
 function findUri(obj) {
     for (var key in obj) {
         if (key === '_uri') {
